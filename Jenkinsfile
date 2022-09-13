@@ -2,16 +2,17 @@ pipeline{
   agent any
     stages{
         stage('version-control'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/tonjei1/mast22.git']]])
-            }
-        }           
-        stage('parallel-job'){
             agent{
                 label {
                     label 'slave1'
                 }
             }
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/tonjei1/mast22.git']]])
+            }
+        }           
+        stage('parallel-job'){
+            
             parallel{
                 stage('sub-job1'){
                     steps{
